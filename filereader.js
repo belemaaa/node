@@ -7,8 +7,11 @@ const fileops = async () => {
     try{
         const data = await fsPromises.readFile(path.join(__dirname, 'files', 'testfile.txt'), 'utf-8')
         console.log(data)
-        const write_data = await fsPromises.writeFile(path.join(__dirname, 'files', 'newreply.txt'), "Some content")
+        await fsPromises.writeFile(path.join(__dirname, 'files', 'newreply.txt'), data)
         console.log('Write operation complete')
+
+        // delete
+        await fsPromises.unlink(path.join(__dirname, 'files', 'reply.txt'))
     } catch (err){
         console.error(`Errors retrieved: ${err}`)
     }
