@@ -1,0 +1,11 @@
+data = {
+    name: "Grace",
+    age: 25,
+    role: "backend"
+}
+
+data = {
+    name: "John",
+    age: 28,
+    role: "frontend"
+}
