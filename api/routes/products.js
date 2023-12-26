@@ -8,18 +8,23 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/create', (req, res, next) => {
-    res.status(200).json({
+    res.status(201 ).json({
         message: "request successful"
     })
 })
 
 router.get('/:product_id', (req, res, next) => {
     const product_id = req.params.product_id
-    if (product_id === 1){
+    if (product_id === '1'){
         res.status(200).json({
-            message: `Detail returned for product ${product_id}`
+            message: `Detail returned for product ${product_id}`,
+            id: product_id
+        })
+    }else{
+        res.status(400).json({
+            error: "bad request"
         })
     }
-})
+}) 
 
 module.exports = router
