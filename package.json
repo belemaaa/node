@@ -1,0 +1,29 @@
+{
+  "name": "node-crash-course",
+  "version": "1.0.0",
+  "description": "node rest api course",
+  "main": "dir.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/belemaaa/node.git"
+  },
+  "keywords": [
+    "node",
+    "rest",
+    "api",
+    "course"
+  ],
+  "author": "Belema",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/belemaaa/node/issues"
+  },
+  "homepage": "https://github.com/belemaaa/node#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
