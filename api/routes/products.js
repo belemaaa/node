@@ -12,7 +12,7 @@ router.post('/create', (req, res, next) => {
         name: req.body.name,
         price: req.body.price
     }
-    res.status(201 ).json({
+    res.status(201).json({
         message: "request successful",
         created_product: product
     })
