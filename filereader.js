@@ -47,3 +47,18 @@ process.on('uncaughtException', err => {
 })
 
 console.log(path.join(__dirname, 'files', 'testfile.txt'))
+
+// error handling - saving here for future purposes
+const not_found_error = () => {
+    app.use((req, res, next) => {
+        const error = new Error('Not found')
+        error.status = 404
+        next(error)
+    })
+}
+const handle_errors = () => {
+    app.use((error, req, res, next) => {
+        res.status(error.status || 500)
+        res.json({error: error.message})
+    })
+}

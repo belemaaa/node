@@ -14,10 +14,6 @@ const database = () => {
             useUnifiedTopology: true
         })
         console.log('Database connected successfully')
-        // const connection = mongoose.connection
-        // connection.once("open", () => {
-        //     console.log("Mongodb connected")
-        // })
     } catch(error){
         console.log(error)
         console.log('Database connection failed')
@@ -50,26 +46,9 @@ const routes = ()=> {
     app.use('/orders', order_routes)
 }
 
-const not_found_error = () => {
-    app.use((req, res, next) => {
-        const error = new Error('Not found')
-        error.status = 404
-        next(error)
-    })
-}
-
-const handle_errors = () => {
-    app.use((error, req, res, next) => {
-        res.status(error.status || 500)
-        res.json({error: error.message})
-    })
-}
-
 database()
 middlewares()
 headers()
 routes()
-not_found_error()
-handle_errors()
 
 module.exports = app
