@@ -9,7 +9,7 @@ const order_routes = require('./api/routes/orders')
 // connect mongodb database
 const db = (module.exports = () => {
     try{
-        mongoose.connect('mongodb+srv://graceitamunoala:Itamunoala1@node-proj.w2tuwms.mongodb.net/?retryWrites=true&w=majority', {
+        mongoose.connect('mongodb+srv://graceitamunoala:'+process.env.MONGO_ATLAS_PW+'@node-proj.w2tuwms.mongodb.net/?retryWrites=true&w=majority', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
