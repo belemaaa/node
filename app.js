@@ -3,14 +3,27 @@ const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-
 const product_routes = require('./api/routes/products')
 const order_routes = require('./api/routes/orders')
 
-mongoose.connect('mongodb+srv://graceitamunoala:' + process.env.MONGO_ATLAS_PW +'@node-proj.w2tuwms.mongodb.net/?retryWrites=true&w=majority', {
-    useMongoClient: true
+// connect mongodb database
+const db = (module.exports = () => {
+    try{
+        mongoose.connect('mongodb+srv://graceitamunoala:Itamunoala1@node-proj.w2tuwms.mongodb.net/?retryWrites=true&w=majority', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        })
+        console.log('Database connected successfully')
+        // const connection = mongoose.connection
+        // connection.once("open", () => {
+        //     console.log("Mongodb connected")
+        // })
+    } catch(error){
+        console.log(error)
+        console.log('Database connection failed')
+    }
 })
-
+db();
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: false})) 
 app.use(bodyParser.json())
