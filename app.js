@@ -9,7 +9,7 @@ const order_routes = require('./api/routes/orders')
 // connect mongodb database
 const database = () => {
     try{
-        mongoose.connect('mongodb+srv://graceitamunoala:'+process.env.MONGO_ATLAS_PW+'@node-proj.w2tuwms.mongodb.net/?retryWrites=true&w=majority', {
+        mongoose.connect('mongodb://127.0.0.1:27017/MONGO', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
@@ -41,8 +41,7 @@ const headers = () => {
         if (req.method === 'OPTIONS'){
             res.headersSent('Access-Control-Allow-Methods', 'PUT, POST, DELETE, GET, PATCH')
             return res.status(200).json({})
-        }
-        next()
+        }next()
     })
 }
 
@@ -62,11 +61,7 @@ const not_found_error = () => {
 const handle_errors = () => {
     app.use((error, req, res, next) => {
         res.status(error.status || 500)
-        res.json({
-            error: {
-                message: error.message
-            }
-        })
+        res.json({error: error.message})
     })
 }
 
