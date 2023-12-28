@@ -10,6 +10,19 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+app.use((req, res, next) => {
+    // allow cors for all ports/servers
+    res.header('Access-Control-Allow-Origin', '*') 
+    res.header(
+        'Access-Control-Allow-Headers', 
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    )
+    if (req.method === 'OPTIONS'){
+        res.headersSent('Access-Control-Allow-Methods', 'PUT, POST, DELETE, GET, PATCH')
+        return res.status(200).json({})
+    }
+})
+
 app.use('/products', product_routes)
 app.use('/orders', order_routes)
 

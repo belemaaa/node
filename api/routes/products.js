@@ -6,7 +6,6 @@ router.get('/', (req, res, next) => {
         message: "handling GET requests "
     })
 })
-
 router.post('/create', (req, res, next) => {
     const product = {
         name: req.body.name,
@@ -17,7 +16,6 @@ router.post('/create', (req, res, next) => {
         created_product: product
     })
 })
-
 router.get('/:product_id', (req, res, next) => {
     const product_id = req.params.product_id
     if (product_id === '1'){
