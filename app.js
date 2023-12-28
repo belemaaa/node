@@ -2,12 +2,17 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 
 const product_routes = require('./api/routes/products')
 const order_routes = require('./api/routes/orders')
 
+mongoose.connect('mongodb+srv://graceitamunoala:' + process.env.MONGO_ATLAS_PW +'@node-proj.w2tuwms.mongodb.net/?retryWrites=true&w=majority', {
+    useMongoClient: true
+})
+
 app.use(morgan('dev'))
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: false})) 
 app.use(bodyParser.json())
 
 app.use((req, res, next) => {
@@ -21,6 +26,7 @@ app.use((req, res, next) => {
         res.headersSent('Access-Control-Allow-Methods', 'PUT, POST, DELETE, GET, PATCH')
         return res.status(200).json({})
     }
+    next()
 })
 
 app.use('/products', product_routes)
