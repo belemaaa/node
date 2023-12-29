@@ -70,11 +70,28 @@ const delete_product = () => {
         }).catch(err => console.log(err))
     })
 }
+const update_product = () => {
+    router.patch('/:product_id', (req, res, next) => {
+        const product_id = req.params.product_id
+        const updateOps = {}
+        for (const ops in req.body){
+            updateOps[ops.propName] = ops.valueOf
+        }
+        Product.update({_id: product_id}, {$set: updateOps}).exec()
+            .then(result => {
+                console.log(result)
+                res.status(200).json({
+                    message: "product updated",
+                    updated_product: result
+                })
+            }).catch(err => console.log(err))
+    })
+}
 
 get_products()
 create_product()
 get_product_detail()
 delete_product()
-
+update_product()
 
 module.exports = router
