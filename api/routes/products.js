@@ -105,7 +105,7 @@ const update_product = () => {
                         request: {
                             type: 'GET',
                             description: 'GET_PRODUCT_DETAIL',
-                            url: "http://localhost:3000/products/" + product._id
+                            url: "http://localhost:3000/products/" + product_id
                         }
                     }
                 }
