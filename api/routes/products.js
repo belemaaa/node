@@ -64,9 +64,7 @@ const delete_product = () => {
         Product.deleteOne({_id: product_id}).exec().then(result => {
             console.log('Resource deleted')
             res.status(200).json({
-                message: "Product has been deleted",
-                result: result
-            })
+                message: "Product has been deleted",})
         }).catch(err => console.log(err))
     })
 }
@@ -74,15 +72,18 @@ const update_product = () => {
     router.patch('/:product_id', (req, res, next) => {
         const product_id = req.params.product_id
         const updateOps = {}
-        for (const ops in req.body){
-            updateOps[ops.propName] = ops.valueOf
+        for (const prop in req.body){
+            updateOps[prop] = req.body[prop]
         }
-        Product.update({_id: product_id}, {$set: updateOps}).exec()
+        Product.updateOne({_id: product_id}, {$set: updateOps}).exec()
             .then(result => {
                 console.log(result)
                 res.status(200).json({
                     message: "product updated",
-                    updated_product: result
+                    updated_product: {
+                        "_id": product_id,
+                        ...updateOps
+                    }
                 })
             }).catch(err => console.log(err))
     })
