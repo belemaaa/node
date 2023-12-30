@@ -7,8 +7,23 @@ const get_products = () => {
     router.get('/', (req, res, next) => {
         Product.find().select('_id name price').exec()
             .then(products => {
-                res.status(200).json(products)
-            }).catch(err => {
+                const response = {
+                    products: products.map(product => {
+                        return{
+                            id: product._id,
+                            name: product.name,
+                            price: product.price,
+                            request: {
+                                type: 'GET',
+                                description: 'GET_PRODUCT_DETAIL',
+                                url: 'http://localhost:3000/products/' + product._id
+                            }
+                        }
+                    })
+                }
+                res.status(200).json(response)
+            })
+            .catch(err => {
                 console.log(err)
                 res.status(500).json({
                     error_message: err
@@ -27,7 +42,11 @@ const create_product = () => {
             console.log(result)
             res.status(201).json({
                 message: "request successful",
-                created_product: product
+                created_product: {
+                    id: result._id,
+                    name: result.name,
+                    price: result.price
+                }
             })
         })
         .catch(err => {
@@ -76,15 +95,21 @@ const update_product = () => {
             updateOps[prop] = req.body[prop]
         }
         Product.updateOne({_id: product_id}, {$set: updateOps}).exec()
-            .then(result => {
-                console.log(result)
-                res.status(200).json({
-                    message: "product updated",
+            .then(product => {
+                console.log(product)
+                const response = {
+                    message: "Product updated",
                     updated_product: {
-                        "_id": product_id,
-                        ...updateOps
+                        id: product._id,
+                        ...updateOps,
+                        request: {
+                            type: 'GET',
+                            description: 'GET_PRODUCT_DETAIL',
+                            url: "http://localhost:3000/products/" + product._id
+                        }
                     }
-                })
+                }
+                res.status(200).json(response)
             }).catch(err => console.log(err))
     })
 }
