@@ -17,10 +17,11 @@ const create_order = () => {
         const product_id = req.body.product_id
         const quantity = req.body.quantity
         try{
-            const existing_product = Product.findById(product_id).exec()
+            const existing_product = await Product.findById(product_id).exec()
             if (existing_product){
-                const product_price = existing_product.price
-                const calculated_price = product_price * quantity
+                const product_price = parseFloat(existing_product.price)
+                const calculated_price = parseFloat(product_price * quantity)
+                console.log(product_price, calculated_price)
                 const order = new Order({
                     _id: new mongoose.Types.ObjectId(),
                     product: product_id,
@@ -29,10 +30,10 @@ const create_order = () => {
                 })
                 const saved_order = await order.save()
                 const response = {
-                    order_id: order._id,
-                    product_id: order.product,
-                    quantity: order.quantity,
-                    price: order.price,
+                    order_id: saved_order._id,
+                    product_id: saved_order.product,
+                    quantity: saved_order.quantity,
+                    price: saved_order.price,
                     request: {
                         type: 'GET',
                         description: 'GET_PRODUCT_DETAIL',
@@ -51,7 +52,7 @@ const create_order = () => {
         }catch(error){
             console.log(error)
             res.status(500).json({
-                error: error
+                error: error,
             })
         }
         

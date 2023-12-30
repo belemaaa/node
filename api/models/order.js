@@ -12,7 +12,7 @@ const order_schema = mongoose.Schema({
         default: 1
     },
     price: {
-        type: Number
+        type: Number,
     }
 })
 
