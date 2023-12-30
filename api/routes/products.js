@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 
 const get_products = () => {
     router.get('/', (req, res, next) => {
-        Product.find().exec()
+        Product.find().select('_id name price').exec()
             .then(products => {
                 res.status(200).json(products)
             }).catch(err => {
@@ -41,7 +41,7 @@ const create_product = () => {
 const get_product_detail = () => {
     router.get('/:product_id', (req, res, next) => {
         const product_id = req.params.product_id
-        Product.findById(product_id).exec()
+        Product.findById(product_id).select('_id name price').exec()
             .then(result => {
                 console.log(result)
                 if (result){
