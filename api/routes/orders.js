@@ -6,16 +6,22 @@ const Product = require('../models/product')
 
 const get_orders = () => {
     router.get('/', (req, res, next) => {
-        res.status(200).json({
-            message: "all orders displayed "
-        })
+        Order.find().select('_id product quantity price').exec()
+            .then(orders => {
+                res.status(200).json(orders)
+            }).catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
     })
 }
 
 const create_order = () => {
     router.post('/create', async (req, res, next) => {
         const product_id = req.body.product_id
-        const quantity = req.body.quantity
+        const quantity = req.body.quantity || 1
         try{
             const existing_product = await Product.findById(product_id).exec()
             if (existing_product){
@@ -44,7 +50,7 @@ const create_order = () => {
                     message: "New order created for product " + product_id,
                     response
                 })
-            } else{
+            }else{
                 res.status(404).json({
                     message: "Invalid product id"
                 })
