@@ -3,13 +3,15 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const Order = require('../models/order')
 const Product = require('../models/product')
+const product = require('../models/product')
 
 const get_orders = () => {
     router.get('/', (req, res, next) => {
-        Order.find().select('_id product quantity price').exec()
-            .then(orders => {
-                res.status(200).json(orders)
-            }).catch(err => {
+        Order.find().select('_id product quantity price')
+            .populate('product', '_id name price')
+            .exec()
+            .then(orders => res.status(200).json({orders: orders})
+            ).catch(err => {
                 console.log(err)
                 res.status(500).json({
                     error: err
@@ -17,7 +19,6 @@ const get_orders = () => {
             })
     })
 }
-
 const create_order = () => {
     router.post('/create', async (req, res, next) => {
         const product_id = req.body.product_id
@@ -40,9 +41,13 @@ const create_order = () => {
             const saved_order = await order.save()
             const response = {
                 order_id: saved_order._id,
-                product_id: saved_order.product,
+                product: {
+                    id: saved_order.product,
+                    name: saved_order.product.name,
+                    price: saved_order.product.price
+                },
                 quantity: saved_order.quantity,
-                price: saved_order.price,
+                total_price: saved_order.price,
                 request: {
                     type: 'GET',
                     description: 'GET_PRODUCT_DETAIL',
