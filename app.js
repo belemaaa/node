@@ -3,10 +3,11 @@ const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const user_routes = require('./api/routes/users')
 const product_routes = require('./api/routes/products')
 const order_routes = require('./api/routes/orders')
 
-// connect mongodb database
+// connect to mongodb 
 const database = () => {
     try{
         mongoose.connect('mongodb://127.0.0.1:27017/MONGO', {
@@ -42,6 +43,7 @@ const headers = () => {
 }
 
 const routes = ()=> {
+    app.use('/user', user_routes)
     app.use('/products', product_routes)
     app.use('/orders', order_routes)
 }
