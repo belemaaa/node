@@ -8,7 +8,7 @@ const product = require('../models/product')
 const get_orders = () => {
     router.get('/', (req, res, next) => {
         Order.find().select('_id product quantity price')
-            .populate('product', '_id name price')
+            .populate('product', '_id name')
             .exec()
             .then(orders => res.status(200).json({orders: orders})
             ).catch(err => {
@@ -41,11 +41,7 @@ const create_order = () => {
             const saved_order = await order.save()
             const response = {
                 order_id: saved_order._id,
-                product: {
-                    id: saved_order.product,
-                    name: saved_order.product.name,
-                    price: saved_order.product.price
-                },
+                product_id: saved_order.product._id,
                 quantity: saved_order.quantity,
                 total_price: saved_order.price,
                 request: {
