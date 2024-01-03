@@ -7,10 +7,10 @@ const bcrypt = require('bcrypt')
 const signup = () => {
     router.post('/signup', (req, res, next) => {
         User.find({email: req.body.email}).exec().then(user => {
-            if(user){
+            if(user.length >= 1){
                 return res.status(400).json({
-                    message: "Bad request",
-                    error: "User with this email already exists"
+                    error: "Bad request",
+                    message: "User with this email already exists"
                 })
             } else{
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
