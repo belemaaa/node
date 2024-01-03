@@ -42,6 +42,22 @@ const signup = () => {
     })
 }
 
+const delete_user = () => {
+    router.delete('/:user_id', (req, res, next) => {
+        User.deleteOne({_id: req.params.user_id}).exec().then(result => {
+            res.status(200).json({
+                message: "User deleted"
+            })
+        }).catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+    })
+}
+
 signup()
+delete_user()
 
 module.exports = router
